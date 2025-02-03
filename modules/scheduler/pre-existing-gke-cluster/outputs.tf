@@ -19,14 +19,6 @@ output "cluster_id" {
   value       = data.google_container_cluster.existing_gke_cluster.id
 }
 
-output "gke_cluster_exists" {
-  description = "A static flag that signals to downstream modules that a cluster exists."
-  value       = true
-  depends_on = [
-    data.google_container_cluster.existing_gke_cluster
-  ]
-}
-
 output "gke_version" {
   description = "GKE cluster's version."
   value       = data.google_container_cluster.existing_gke_cluster.master_version

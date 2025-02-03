@@ -19,14 +19,6 @@ output "cluster_id" {
   value       = google_container_cluster.gke_cluster.id
 }
 
-output "gke_cluster_exists" {
-  description = "A static flag that signals to downstream modules that a cluster has been created. Needed by community/modules/scripts/kubernetes-operations."
-  value       = true
-  depends_on = [
-    google_container_cluster.gke_cluster
-  ]
-}
-
 locals {
   private_endpoint_message = trimspace(
     <<-EOT
