@@ -24,6 +24,13 @@ tags:
 
 timeout: 14400s  # 4hr
 steps:
+- id: setup
+  name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+  args:
+  - cp
+  - gs://experimental-trigger-test/test-blueprint.yaml
+  - /workspace/examples/gke-a3-highgpu.yaml
+  entrypoint: gsutil
 - id: gke-a3-highgpu
   name: us-central1-docker.pkg.dev/$PROJECT_ID/hpc-toolkit-repo/test-runner
   entrypoint: /bin/bash
@@ -57,6 +64,8 @@ steps:
     echo '      - nvidia-smi'                                  >> $${EXAMPLE_BP}
     echo '      node_count: 1'                                 >> $${EXAMPLE_BP}
     echo '    outputs: [instructions]'                         >> $${EXAMPLE_BP}
+
+    # cat $${EXAMPLE_BP}
 
     ansible-playbook tools/cloud-build/daily-tests/ansible_playbooks/base-integration-test.yml \
         --user=sa_106486320838376751393 --extra-vars="project=${PROJECT_ID} build=$${BUILD_ID_SHORT}" \
